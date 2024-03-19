@@ -1,0 +1,51 @@
+services:
+  auth:
+    container_name: auth
+    build:
+      context: ..
+      dockerfile: ./auth/Auth/Dockerfile
+      target: final
+    ports:
+      - 7258:5080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - APP_PORT=7258
+      
+  gateway:
+    container_name: gateway
+    build:
+      context: ..
+      dockerfile: ./Gateway/Dockerfile
+      target: final
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 7209:5185
+  
+  product:
+    container_name: product
+    environment:
+      - SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
+      - ASPNETCORE_ENVIRONMENT=Development
+    build:
+      context: ..
+      dockerfile: ./Product/Dockerfile
+      target: final
+    ports:
+      - 7091:5194
+    
+  
+  sql-server:
+    container_name: SqlServer
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "sa"
+      ACCEPT_EULA: "Y"
+  
+
+networks:
+  default:
+    external: true
+    name: ecm-network
