@@ -1,3 +1,5 @@
+using Auth.Contracts;
+using Auth.Services;
 using JwtAuthManager;
 using JwtAuthManager.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +10,12 @@ namespace Auth.Controllers;
 public class AccountController: ControllerBase
 {
     private readonly JwtTokenHandler _jwtTokenHandler;
+    private readonly IUserManager _userManager;
 
-    public AccountController(JwtTokenHandler jwtTokenHandler)
+    public AccountController(JwtTokenHandler jwtTokenHandler,UserManager userManager)
     {
         _jwtTokenHandler = jwtTokenHandler;
+        _userManager = userManager;
     }
 
     [HttpPost]
@@ -20,7 +24,19 @@ public class AccountController: ControllerBase
         var authenticationResponse = _jwtTokenHandler.GenerateJwtToken(authenticationRequest);
         if (authenticationResponse == null) return Unauthorized();
         return authenticationResponse;
+    }
+    
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] AuthenticationRequest request)
+    {
+        await _userManager.RegisterAsync(request.UserName, request.Password);
+        return Ok();
+    }
 
-
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] AuthenticationRequest request)
+    {
+        var token = await _userManager.LoginAsync(request.UserName, request.Password);
+        return Ok(new { Token = token });
     }
 }
