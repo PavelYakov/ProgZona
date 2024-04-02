@@ -1,7 +1,7 @@
 using Auth.Contracts;
 using Auth.Data;
 using Auth.Services;
-using JwtAuthManager;
+//using JwtAuthManager;
 using Microsoft.EntityFrameworkCore;
 using JwtTokenHandler = Auth.JwtAuthManager.JwtTokenHandler;
 
@@ -12,7 +12,7 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Services.AddControllers();
 //builder.Services.AddSingleton<JwtTokenHandler>();
 builder.Services.AddScoped<JwtTokenHandler>();
-builder.Services.AddScoped<JwtAuthManager.JwtTokenHandler>();
+//builder.Services.AddScoped<JwtAuthManager.JwtTokenHandler>();
 builder.Services.AddTransient<IUserManager,UserManager>();
 builder.Services.AddScoped<UserManager>();
 

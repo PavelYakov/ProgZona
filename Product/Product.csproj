@@ -12,13 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\JwtAuthManager\JwtAuthManager.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Auth\Auth.csproj" />
     </ItemGroup>
 
 </Project>

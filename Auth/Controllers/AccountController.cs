@@ -1,7 +1,7 @@
 using Auth.Contracts;
+using Auth.JwtAuthManager;
+using Auth.JwtAuthManager.Models;
 using Auth.Services;
-using JwtAuthManager;
-using JwtAuthManager.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Controllers;

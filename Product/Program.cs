@@ -1,4 +1,4 @@
-using JwtAuthManager;
+using Auth.JwtAuthManager;
 
 var builder = WebApplication.CreateBuilder(args);
 

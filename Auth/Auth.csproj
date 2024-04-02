@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\JwtAuthManager\JwtAuthManager.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="Auth.EfCore\Auth.EfCore\obj\Auth.EfCore.csproj.nuget.dgspec.json" />
       <_ContentIncludedByDefault Remove="Auth.EfCore\Auth.EfCore\obj\project.assets.json" />
       <_ContentIncludedByDefault Remove="Auth.EfCore\Auth.EfCore\obj\project.packagespec.json" />

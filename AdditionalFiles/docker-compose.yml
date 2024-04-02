@@ -1,50 +1,47 @@
+version: '3'
+
 services:
   auth:
     container_name: auth
     build:
-      context: ..
+      context: .
       dockerfile: ./auth/Dockerfile
-      target: final
     ports:
-      - 7258:5080
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - APP_PORT=7258
-    depends_on:
-      - db
+      - 5080:80
+    networks:
+          - dddnet
+    
   gateway:
     container_name: gateway
     build:
-      context: ..
+      context: .
       dockerfile: ./Gateway/Dockerfile
-      target: final
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - 7209:5185
-    depends_on:
-      - db
+      - 7209:80
+    networks:
+      - dddnet
+    
   product:
     container_name: product
-    environment:
-      - SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
-      - ASPNETCORE_ENVIRONMENT=Development
     build:
-      context: ..
+      context: .
       dockerfile: ./Product/Dockerfile
-      target: final
     ports:
-      - 7091:5194
-    depends_on:
-      - db
-  
-  db:
-    container_name: SqlServer
+      - 5194:80
+    networks:
+    - dddnet
+
+  authdb:
+    container_name: AuthSqlServer
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
-      - "1433:1433"
+      - "8001:1433"
     environment:
       SA_PASSWORD: "LolKek123"
       ACCEPT_EULA: "Y"
-      USER: myuser
       DB: AuthProgZona
+    networks:
+      - dddnet
+networks:
+  dddnet:
+      

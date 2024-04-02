@@ -2,15 +2,15 @@
   "Routes": [
     // Auth Web Api
     {
-      "DownstreamPathTemplate": "/api/auth{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/auth/{catchAll}", //"/api/auth{everything}"
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7258
+          "Port": 7258 // 7258 5080
         }
       ],
-      "UpstreamPathTemplate": "/api/auth{everything}",
+      "UpstreamPathTemplate": "/api/auth/{catchAll}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "Priority": 100
     },
@@ -22,7 +22,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7091
+          "Port": 7091 //7091 5194
         }
       ],
      //"UpstreamPathTemplate": "/api/product",
