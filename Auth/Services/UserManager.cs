@@ -12,15 +12,17 @@ namespace Auth.Services;
 public class UserManager : IUserManager
 {
     private readonly AuthContext _ctx;
+    private readonly UserContext _userctx;
     private readonly JwtTokenHandler _jwtTokenHandler;
 
-    public UserManager(AuthContext ctx, JwtTokenHandler jwtTokenHandler)
+    public UserManager(AuthContext ctx, JwtTokenHandler jwtTokenHandler,  UserContext userctx)
     {
         _ctx = ctx;
         _jwtTokenHandler = jwtTokenHandler;
+        _userctx = userctx;
     }
 
-    public async Task RegisterAsync(string username, string password)
+    public async Task RegisterAsync(string username, string password, string email)
     {
         // Проверяем, существует ли пользователь с таким же именем
         var existingUser = await _ctx.Users.FirstOrDefaultAsync(u => u.Name == username);
@@ -32,18 +34,29 @@ public class UserManager : IUserManager
         var newUser = new UserEntity
         {
             Name = username,
-            PasswordHash = HashPassword(password)
+            PasswordHash = HashPassword(password),
+            Email = email
         };
+        var newUserInfo = new UserInfoEntity()
+        {
+            Name = username,
+            Level = 0,
+            Point = 10,
+            Email = email
+        };
+        
         _ctx.Users.Add(newUser);
+        _userctx.UserInfos.Add(newUserInfo);
+        
         await _ctx.SaveChangesAsync();
-
+        await _userctx.SaveChangesAsync();
         
         int userId = newUser.Id;
         
         _ctx.UsersRoles.Add(new UserRoleEntity
         {
             UserId = userId,
-            RoleId = 2
+            RoleId = 1
         });
         await _ctx.SaveChangesAsync();
     }
@@ -86,7 +99,23 @@ public class UserManager : IUserManager
 
         return authenticationResponse.JwtToken;
     }
+    public async Task DeletedAsync(int id)
+    {
+        // Поиск пользователя по имени
+        var user = await _ctx.Users.FirstOrDefaultAsync(u => u.Id == id);
 
+        if (user == null)
+        {
+            // Если пользователь не найден, можно выбросить исключение или просто завершить метод
+            return; // или throw new Exception("User not found");
+        }
+
+        // Удаляем пользователя из контекста базы данных
+        _ctx.Users.Remove(user);
+
+        // Сохраняем изменения в базе данных
+        await _ctx.SaveChangesAsync();
+    }
     private bool VerifyPassword(UserEntity user, string password)
     {
         // Получаем хэш пароля из базы данных

@@ -21,6 +21,12 @@ builder.Services.AddDbContext<AuthContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AuthConnection"));
 });
 
+builder.Services.AddDbContext<UserContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("UserConnection"));
+});
+
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");

@@ -29,14 +29,32 @@ public class AccountController: ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] AuthenticationRequest request)
     {
-        await _userManager.RegisterAsync(request.UserName, request.Password);
-        return Ok();
+        /*await _userManager.RegisterAsync(request.UserName, request.Password);
+        return Ok();*/
+        
+        // Проверяем валидность модели
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Регистрируем нового пользователя
+        await _userManager.RegisterAsync(request.UserName, request.Password, request.Email);
+        return Ok("Пользователь успешно зарегистрирован.");
+            
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] AuthenticationRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var token = await _userManager.LoginAsync(request.UserName, request.Password);
         return Ok(new { Token = token });
+    }
+    
+    [HttpDelete("delete")]
+    public async Task<IActionResult> Delete([FromQuery] int id)
+    {
+        await _userManager.DeletedAsync(id);
+        return Ok("Пользователь успешно зарегистрирован.");
     }
 }

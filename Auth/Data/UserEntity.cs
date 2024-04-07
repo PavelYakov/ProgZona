@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using Auth.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,6 +9,10 @@ public class UserEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    
+    [EmailAddress]
+    [UniqueEmail] //атрибут для проверки уникальности Email
+    public string Email { get; set; }
     public string PasswordHash { get; set; }
     public virtual List<AuthEntity> Tokens { get; set; }
     public virtual List<UserRoleEntity> Roles { get; set; }
@@ -25,6 +31,7 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<UserEntity>
         builder.Property(x => x.Name).IsRequired();
 
         builder.Property(x => x.PasswordHash).IsRequired();
+        builder.Property(x => x.Email).IsRequired();
         
         
         builder
