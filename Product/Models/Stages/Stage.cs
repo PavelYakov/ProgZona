@@ -8,8 +8,10 @@ namespace Product.Models.Stages;
 public class Stage
 {
     public int Id { get; set; }
+    public string Name { get; set; }
     public int StagePoint { get; set; } // показывает количество очков, необходимых для открытия этапа
-    
+    public string Text { get; set; }
+
     public int CourseId { get; set; } // Внешний ключ для связи с курсом
     public Course Course { get; set; } // Навигационное свойство курса
 }

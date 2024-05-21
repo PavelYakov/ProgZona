@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.Data.Context;
 
@@ -10,9 +11,10 @@ using Product.Data.Context;
 namespace Product.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    partial class ProductContextModelSnapshot : ModelSnapshot
+    [Migration("20240413093857_AddUserProduct")]
+    partial class AddUserProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,8 +59,8 @@ namespace Product.Migrations
                     b.Property<int>("MainCourseId")
                         .HasColumnType("int");
 
-                   /* b.Property<int>("MainCourseId1")
-                        .HasColumnType("int");*/
+                    b.Property<int>("MainCourseId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,7 +73,7 @@ namespace Product.Migrations
 
                     b.HasIndex("MainCourseId");
 
-                    /*b.HasIndex("MainCourseId1");*/
+                    b.HasIndex("MainCourseId1");
 
                     b.ToTable("Course", (string)null);
                 });
@@ -216,33 +218,6 @@ namespace Product.Migrations
                     b.ToTable("UserAchievement", (string)null);
                 });
 
-            modelBuilder.Entity("Product.Data.Entity.UserEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Point")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserProduct", (string)null);
-                });
-
             modelBuilder.Entity("Product.Data.Entity.UserFolderEntity.UserCourseEntity", b =>
                 {
                     b.Property<int>("UserId")
@@ -308,11 +283,11 @@ namespace Product.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                   /* b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
+                    b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
                         .WithMany()
                         .HasForeignKey("MainCourseId1")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();*/
+                        .IsRequired();
 
                     b.Navigation("MainCourse");
                 });
@@ -358,15 +333,7 @@ namespace Product.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product.Data.Entity.UserEntity", "User")
-                        .WithMany("UserAchievements")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Achievement");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Product.Data.Entity.AchievementEntity", b =>
@@ -389,11 +356,6 @@ namespace Product.Migrations
                     b.Navigation("Tasks");
 
                     b.Navigation("Tests");
-                });
-
-            modelBuilder.Entity("Product.Data.Entity.UserEntity", b =>
-                {
-                    b.Navigation("UserAchievements");
                 });
 #pragma warning restore 612, 618
         }

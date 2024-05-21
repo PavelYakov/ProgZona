@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.Data.Context;
 
@@ -10,9 +11,10 @@ using Product.Data.Context;
 namespace Product.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    partial class ProductContextModelSnapshot : ModelSnapshot
+    [Migration("20240413094054_AddUserProduct2")]
+    partial class AddUserProduct2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,8 +59,8 @@ namespace Product.Migrations
                     b.Property<int>("MainCourseId")
                         .HasColumnType("int");
 
-                   /* b.Property<int>("MainCourseId1")
-                        .HasColumnType("int");*/
+                    b.Property<int>("MainCourseId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -71,7 +73,7 @@ namespace Product.Migrations
 
                     b.HasIndex("MainCourseId");
 
-                    /*b.HasIndex("MainCourseId1");*/
+                    b.HasIndex("MainCourseId1");
 
                     b.ToTable("Course", (string)null);
                 });
@@ -308,11 +310,11 @@ namespace Product.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                   /* b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
+                    b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
                         .WithMany()
                         .HasForeignKey("MainCourseId1")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();*/
+                        .IsRequired();
 
                     b.Navigation("MainCourse");
                 });

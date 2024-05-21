@@ -19,7 +19,7 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<UserEntity>
 {
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
-        builder.ToTable("User");
+        builder.ToTable("UserProduct");
         
         builder.HasKey(x => x.Id);
         

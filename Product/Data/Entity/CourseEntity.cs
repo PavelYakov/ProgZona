@@ -9,8 +9,13 @@ public class CourseEntity
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int LevelDifficult { get; set; } // пока сомнительно
+    
+    //public int LevelDifficult { get; set; } // пока сомнительно
+    public int PurchaseCount { get; set; } // количество купивших
     public virtual List<StageEntity> Stages { get; set; } 
+    
+    public int MainCourseId { get; set; } // Внешний ключ для связи с  главным курсом
+    public virtual MainCourseEntity MainCourse { get; set; } // Навигационное свойство главного курса
 }
 public class CourseEntityConfiguration: IEntityTypeConfiguration<CourseEntity>
 {
@@ -27,5 +32,12 @@ public class CourseEntityConfiguration: IEntityTypeConfiguration<CourseEntity>
             .WithOne(x => x.Course)
             .HasForeignKey(x => x.CourseId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        // Связь с курсом
+        builder.HasOne(x => x.MainCourse)
+            .WithMany(c => c.Courses)
+            .HasForeignKey(x => x.MainCourseId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired();
     }
 }

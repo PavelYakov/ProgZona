@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.Data.Context;
 
@@ -10,9 +11,10 @@ using Product.Data.Context;
 namespace Product.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    partial class ProductContextModelSnapshot : ModelSnapshot
+    [Migration("20240411122041_UserCourseStageMigration")]
+    partial class UserCourseStageMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace Product.Migrations
                     b.Property<int>("MainCourseId")
                         .HasColumnType("int");
 
-                   /* b.Property<int>("MainCourseId1")
-                        .HasColumnType("int");*/
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,8 +69,6 @@ namespace Product.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MainCourseId");
-
-                    /*b.HasIndex("MainCourseId1");*/
 
                     b.ToTable("Course", (string)null);
                 });
@@ -100,7 +97,7 @@ namespace Product.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainCourse", (string)null);
+                    b.ToTable("MainCourseEntity");
                 });
 
             modelBuilder.Entity("Product.Data.Entity.StageEntity", b =>
@@ -123,10 +120,6 @@ namespace Product.Migrations
 
                     b.Property<int>("StagePoint")
                         .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -240,7 +233,7 @@ namespace Product.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProduct", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Product.Data.Entity.UserFolderEntity.UserCourseEntity", b =>
@@ -302,17 +295,11 @@ namespace Product.Migrations
 
             modelBuilder.Entity("Product.Data.Entity.CourseEntity", b =>
                 {
-                    b.HasOne("Product.Data.Entity.MainCourseEntity", null)
+                    b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
                         .WithMany("Courses")
                         .HasForeignKey("MainCourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                   /* b.HasOne("Product.Data.Entity.MainCourseEntity", "MainCourse")
-                        .WithMany()
-                        .HasForeignKey("MainCourseId1")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();*/
+                        .IsRequired();
 
                     b.Navigation("MainCourse");
                 });

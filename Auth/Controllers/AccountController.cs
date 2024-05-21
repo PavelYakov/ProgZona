@@ -57,4 +57,12 @@ public class AccountController: ControllerBase
         await _userManager.DeletedAsync(id);
         return Ok("Пользователь успешно зарегистрирован.");
     }
+    
+    [HttpGet("getUser")]
+    public async Task<AuthenticationRequest> GetUser( int userId)
+    {
+        var user = await _userManager.GetUser(userId);
+        
+        return user;
+    }
 }

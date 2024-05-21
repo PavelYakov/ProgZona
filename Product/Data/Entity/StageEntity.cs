@@ -8,11 +8,11 @@ public class StageEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public string Text { get; set; } 
     public int StagePoint { get; set; } // показывает количество очков, необходимых для открытия этапа
     
-   
-    //public int? PreviousStageId { get; set; }  // Ссылка на предыдущий этап
-    //public virtual StageEntity PreviousStage { get; set; }
+    public int PurchaseCount { get; set; } // количество купивших
+    
     public int CourseId { get; set; } // Внешний ключ для связи с курсом
     public CourseEntity Course { get; set; } // Навигационное свойство курса
     

@@ -6,5 +6,5 @@ public class User
    public string Name { get; set; }
    public int Point { get; set; }
    public int Level { get; set; }
-   public int Achievement { get; set; }
+   //public int Achievement { get; set; }
 }

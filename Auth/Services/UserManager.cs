@@ -3,6 +3,7 @@ using System.Text;
 using Auth.Contracts;
 using Auth.Data;
 using Auth.JwtAuthManager;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 //using JwtAuthManager;
 using AuthenticationRequest = Auth.JwtAuthManager.Models.AuthenticationRequest;
@@ -116,6 +117,22 @@ public class UserManager : IUserManager
         // Сохраняем изменения в базе данных
         await _ctx.SaveChangesAsync();
     }
+
+    public async Task<AuthenticationRequest> GetUser(int userId)
+    {
+        var user = await _ctx.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        
+        var mainUser = new AuthenticationRequest
+        {
+            UserName = user.Name,
+            Password = user.PasswordHash,
+            Email = user.Email
+            
+        };
+
+        return mainUser;
+    }
+
     private bool VerifyPassword(UserEntity user, string password)
     {
         // Получаем хэш пароля из базы данных
